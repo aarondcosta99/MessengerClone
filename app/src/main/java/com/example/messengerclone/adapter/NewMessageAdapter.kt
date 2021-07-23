@@ -39,4 +39,3 @@ class NewMessageAdapter(private val userList: ArrayList<Users>):
         val profileUrl: CircleImageView = itemView.findViewById(R.id.exitM)
     }
 }
-

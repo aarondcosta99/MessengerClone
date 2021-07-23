@@ -17,32 +17,42 @@ import kotlin.collections.ArrayList
 
 
 class NewMessageActivity : AppCompatActivity() {
+
     private lateinit var userArrayList: ArrayList<Users>
     private lateinit var newMessageAdapter: NewMessageAdapter
     private lateinit var bind: ActivityNewMessageBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivityNewMessageBinding.inflate(layoutInflater)
         setContentView(bind.root)
+
         supportActionBar?.title = "Select User"
+
         bind.recylerView.layoutManager = LinearLayoutManager(this)
         bind.recylerView.setHasFixedSize(true)
         userArrayList = arrayListOf()
         newMessageAdapter = NewMessageAdapter(userArrayList)
         bind.recylerView.adapter = newMessageAdapter
+
         eventChangeListener()
 
     }
 
     private fun eventChangeListener() {
+
         val db = Firebase.firestore
+
         db.collection("users").orderBy("username",Query.Direction.ASCENDING).addSnapshotListener { snapshot, e ->
-            if (e != null) {
+            if (e != null)
+            {
                 Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
             }
-            for(dc: DocumentChange in snapshot?.documentChanges!!){
-                if(dc.type == DocumentChange.Type.ADDED){
+            for(dc: DocumentChange in snapshot?.documentChanges!!)
+            {
+                if(dc.type == DocumentChange.Type.ADDED)
+                {
                     userArrayList.add(dc.document.toObject(Users::class.java))
                 }
             }

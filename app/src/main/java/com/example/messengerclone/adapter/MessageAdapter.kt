@@ -1,16 +1,12 @@
 package com.example.messengerclone.adapter
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.messengerclone.R
 import com.example.messengerclone.model.Chat
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
@@ -46,7 +42,6 @@ class MessageAdapter(private val chat: ArrayList<Chat>):RecyclerView.Adapter<Mes
     class ViewHolder(v:View) : RecyclerView.ViewHolder(v){
         val showMessage:TextView = v.findViewById(R.id.showMessage)
         val userPic:CircleImageView = v.findViewById(R.id.userPic)
-        //val recPic:CircleImageView = v.findViewById(R.id.recPic)
     }
 
     override fun getItemViewType(position: Int): Int {

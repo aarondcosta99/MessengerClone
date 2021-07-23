@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
+
     private lateinit var bindin: ActivityLoginBinding
 
     override fun onBackPressed() {
@@ -24,15 +25,18 @@ class LoginActivity : AppCompatActivity() {
         bindin = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bindin.root)
 
-        bindin.login.setOnClickListener {
+        bindin.login.setOnClickListener{
+
             bindin.progressBar2.visibility = View.VISIBLE
+
             val email = bindin.xyz.text.toString()
             val password = bindin.abc.text.toString()
-            Firebase.auth.signInWithEmailAndPassword(email,password).addOnSuccessListener {
+
+            Firebase.auth.signInWithEmailAndPassword(email,password).addOnSuccessListener{
                 val intent = Intent(applicationContext, LatestMessagesActivity::class.java)
                 startActivity(intent)
             }.addOnFailureListener {
-                Toast.makeText(applicationContext, "Error!!! $email", Toast.LENGTH_SHORT).show();
+                Toast.makeText(applicationContext, "Error!!! $email", Toast.LENGTH_SHORT).show()
             }
         }
 

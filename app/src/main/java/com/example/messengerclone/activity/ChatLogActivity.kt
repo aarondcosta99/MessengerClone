@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 
 
 class ChatLogActivity : AppCompatActivity() {
+
     private lateinit var userPic:String
     private lateinit var recPic:String
     private lateinit var recId: String
@@ -28,6 +29,7 @@ class ChatLogActivity : AppCompatActivity() {
     private lateinit var roomId: String
     private lateinit var chatt: ArrayList<Chat>
     private lateinit var mAdapter: MessageAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bin = ActivityChatLogBinding.inflate(layoutInflater)
@@ -35,11 +37,14 @@ class ChatLogActivity : AppCompatActivity() {
 
         val user = intent.getParcelableExtra<Users>("username")
         val name = intent.getParcelableExtra<Latest>("nameuser")
+
         if (user != null) {
             recId = user.userId
             recPic = user.profileUrl
             yUsername = user.username
-         } else if (name != null) {
+         }
+        else if (name != null)
+        {
             recId = name.userId
             recPic = name.profileUrl
             yUsername = name.username
@@ -51,55 +56,66 @@ class ChatLogActivity : AppCompatActivity() {
             mUsername = value?.get("username").toString()
             userPic = value?.get("profileUrl").toString()
         }
+
+        supportActionBar?.title = yUsername
+
         chatt = arrayListOf()
         mAdapter = MessageAdapter(chatt)
-        supportActionBar?.title = yUsername
 
         bin.recyclerViewChatLog.setHasFixedSize(true)
         bin.recyclerViewChatLog.layoutManager = LinearLayoutManager(this)
 
         when {
-            userId < recId -> {
+            userId < recId ->
+            {
                 roomId = userId + recId
             }
-            userId.compareTo(recId) == 0 -> {
+            userId.compareTo(recId) == 0 ->
+            {
                 Toast.makeText(this, "Error you are chatting with yourself!!!", Toast.LENGTH_SHORT).show()
             }
             else -> {
                 roomId = recId + userId
             }
         }
+
         readMessages(userId, recId)
 
         bin.buttonChatLog.setOnClickListener {
+
             val msg: String = bin.editTextChatLog.text.toString()
-            if (msg.isNotEmpty()) {
+
+            if (msg.isNotEmpty())
+            {
                 performSendMessage(Firebase.auth.uid!!, recId, msg)
                 bin.editTextChatLog.text.clear()
                 bin.recyclerViewChatLog.scrollToPosition(mAdapter.itemCount-1)
-            } else {
+            }
+            else
+            {
                 Toast.makeText(this, "You can't send empty message", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun performSendMessage(sender: String, rec: String, message: String) {
+
         val db = Firebase.firestore
         val uid = Firebase.auth.uid.toString()
+        val time:FieldValue = FieldValue.serverTimestamp()
+
         val msg = hashMapOf(
             "userId" to sender,
             "recId" to rec,
             "message" to message,
-            "time" to FieldValue.serverTimestamp(),
+            "time" to time,
             "roomId" to roomId,
             "userPic" to userPic,
             "recPic" to recPic
         )
-        db.collection("chats").document(roomId).collection("messages").document().set(
-            msg,
-            SetOptions.merge()
-        )
-        val time:FieldValue = FieldValue.serverTimestamp()
+
+        db.collection("chats").document(roomId).collection("messages").document().set(msg,SetOptions.merge())
+
         val late1 = hashMapOf(
             "userId" to recId,
             "profileUrl" to recPic,
@@ -107,7 +123,9 @@ class ChatLogActivity : AppCompatActivity() {
             "message" to message,
             "time" to time
         )
+
         db.collection("latest").document("messages").collection(uid).document(rec).set(late1)
+
         val late2 = hashMapOf(
             "userId" to uid,
             "profileUrl" to userPic,
@@ -115,28 +133,31 @@ class ChatLogActivity : AppCompatActivity() {
             "message" to message,
             "time" to time
         )
+
         db.collection("latest").document("messages").collection(rec).document(uid).set(late2)
     }
 
     private fun readMessages(userId: String, recId: String) {
+
         val rootRef = Firebase.firestore
-            rootRef.collection("chats").document(roomId).collection("messages").orderBy("time", Query.Direction.ASCENDING)
-            .addSnapshotListener(object : EventListener<QuerySnapshot?> {
-                override fun onEvent(
-                    @Nullable documentSnapshots: QuerySnapshot?,
-                    @Nullable e: FirebaseFirestoreException?
-                ) {
-                    if (e != null) {
+
+        rootRef.collection("chats").document(roomId).collection("messages").orderBy("time", Query.Direction.ASCENDING).addSnapshotListener(object : EventListener<QuerySnapshot?>
+        {
+                override fun onEvent(@Nullable documentSnapshots: QuerySnapshot?,@Nullable e: FirebaseFirestoreException?)
+                {
+                    if (e != null)
+                    {
                         Log.e(TAG, "onEvent: Listen failed.", e)
                         return
                     }
                     chatt.clear()
-                    if (documentSnapshots != null) {
-                        for (queryDocumentSnapshots in documentSnapshots) {
+                    if (documentSnapshots != null)
+                    {
+                        for (queryDocumentSnapshots in documentSnapshots)
+                        {
                             val chat = queryDocumentSnapshots.toObject(Chat::class.java)
-                            if (chat.recId == recId && chat.userId == userId ||
-                                chat.recId == userId && chat.userId == recId
-                            ) {
+                            if (chat.recId == recId && chat.userId == userId || chat.recId == userId && chat.userId == recId)
+                            {
                                 chatt.add(chat)
                             }
                             mAdapter = MessageAdapter(chatt)
@@ -145,6 +166,5 @@ class ChatLogActivity : AppCompatActivity() {
                     }
                 }
             })
-
     }
 }

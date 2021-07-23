@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.messengerclone.R
 import com.example.messengerclone.activity.ChatLogActivity
 import com.example.messengerclone.model.Latest
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
