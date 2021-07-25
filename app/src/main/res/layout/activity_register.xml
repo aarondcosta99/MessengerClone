@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     tools:context=".activity.RegisterActivity">
-
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
@@ -27,7 +27,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectphoto" />
-
     <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
@@ -43,7 +42,6 @@
         app:layout_constraintEnd_toEndOf="@+id/username"
         app:layout_constraintStart_toStartOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@+id/username" />
-
     <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
@@ -59,7 +57,6 @@
         app:layout_constraintEnd_toEndOf="@+id/email"
         app:layout_constraintStart_toStartOf="@+id/email"
         app:layout_constraintTop_toBottomOf="@+id/email" />
-
     <Button
         android:id="@+id/register"
         android:layout_width="0dp"
@@ -73,7 +70,6 @@
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/password" />
-
     <TextView
         android:id="@+id/already"
         android:layout_width="wrap_content"
@@ -86,7 +82,6 @@
         app:layout_constraintEnd_toEndOf="@+id/register"
         app:layout_constraintStart_toStartOf="@+id/register"
         app:layout_constraintTop_toBottomOf="@+id/register" />
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/selectphoto"
         android:layout_width="100dp"
@@ -96,7 +91,6 @@
         app:layout_constraintEnd_toEndOf="@+id/newM"
         app:layout_constraintStart_toStartOf="@+id/newM"
         app:layout_constraintTop_toBottomOf="@+id/newM" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -113,17 +107,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/newM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:srcCompat="@mipmap/ic_messenger_foreground" />
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"

@@ -19,69 +19,64 @@ import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
-    var selectedPhotoUri:Uri?=null
+    private var selectedPhotoUri:Uri?=null
     private lateinit var binding: ActivityRegisterBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        if (Firebase.auth.currentUser != null){
+        if (Firebase.auth.currentUser != null)
+        {
             startActivity(Intent(applicationContext, LatestMessagesActivity::class.java))
             finish()
         }
+        binding.register.setOnClickListener{
 
-        binding.register.setOnClickListener {
             binding.progressBar.visibility = View.VISIBLE
             register()
         }
-
         binding.already.setOnClickListener {
+
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
-
         val getAction = registerForActivityResult(
             ActivityResultContracts.GetContent(), ActivityResultCallback {
+
                     uri-> binding.selectphoto.setImageURI(uri)
                 selectedPhotoUri = uri
             })
-
         binding.selectphoto.setOnClickListener {
+
             getAction.launch("image/*")
         }
     }
-
     private fun register(){
 
         val username = binding.username.text.toString()
         val email = binding.email.text.toString()
         val password = binding.password.text.toString()
-
-        if (email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty())
+        {
             Toast.makeText(this,"Please enter Email and Password",Toast.LENGTH_SHORT).show()
             return
         }
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password).addOnCompleteListener{
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener{
-                if(!it.isSuccessful) return@addOnCompleteListener
+            if(!it.isSuccessful) return@addOnCompleteListener
                 uploadImageToFireBase(username)
-            }.addOnFailureListener {
-                Toast.makeText(this,"Failed to Create User: ${it.message}",Toast.LENGTH_SHORT).show()
-            }
+        }.addOnFailureListener {
+            Toast.makeText(this,"Failed to Create User: ${it.message}",Toast.LENGTH_SHORT).show()
+        }
     }
-
     private fun uploadImageToFireBase(username:String) {
 
         if (selectedPhotoUri == null) return
-
         val storage = Firebase.storage
         val storageRef = storage.reference
         val filename = UUID.randomUUID().toString()
         val ref = storageRef.child("/images/$filename")
-
         val uploadTask = ref.putFile(selectedPhotoUri!!)
         uploadTask.continueWithTask { task ->
             if (!task.isSuccessful) {

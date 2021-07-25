@@ -15,25 +15,24 @@ import de.hdodenhof.circleimageview.CircleImageView
 class NewMessageAdapter(private val userList: ArrayList<Users>):
     RecyclerView.Adapter<NewMessageAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.user_row_new_message,parent,false)
-        return MyViewHolder(itemView)
+        val view:View = LayoutInflater.from(parent.context).inflate(R.layout.user_row_new_message,parent,false)
+          return MyViewHolder(view)
     }
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user: Users = userList[position]
         holder.username.text = user.username
         Picasso.get().load(user.profileUrl).into(holder.profileUrl)
         holder.itemView.setOnClickListener { v ->
             val intent = Intent(v.context, ChatLogActivity::class.java)
-            intent.putExtra("username",user)
+            intent.putExtra("userName",user.username)
+            intent.putExtra("userPic",user.profileUrl)
+            intent.putExtra("userId",user.userId)
             v.context.startActivity(intent)
         }
     }
-
     override fun getItemCount(): Int {
         return userList.size
     }
-
     class MyViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
         val username: TextView = itemView.findViewById(R.id.textView2)
         val profileUrl: CircleImageView = itemView.findViewById(R.id.exitM)

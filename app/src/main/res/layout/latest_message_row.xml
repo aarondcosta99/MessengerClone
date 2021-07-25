@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:background="#FFFFFF">
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/latestImage"
         android:layout_width="64dp"
@@ -17,7 +16,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/latestUsername"
         android:layout_width="wrap_content"
@@ -25,14 +23,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:text="Username"
-        android:textColor="#000000"
+        android:textColor="#0e1f56"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/latestMessage"
         app:layout_constraintStart_toEndOf="@+id/latestImage"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
-
     <TextView
         android:id="@+id/latestMessage"
         android:layout_width="0dp"
@@ -41,6 +38,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="Latest Message"
+        android:textColor="#2196F3"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +46,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/latestImage"
         app:layout_constraintTop_toBottomOf="@+id/latestUsername" />
-
     <TextView
         android:id="@+id/textView3"
         android:layout_width="0dp"

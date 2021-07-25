@@ -20,38 +20,33 @@ class LatestMessagesActivity : AppCompatActivity() {
     private lateinit var latestArrayList: ArrayList<Latest>
     private lateinit var latestAdapter: LatestAdapter
     private lateinit var bindi: ActivityLatestMessagesBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         bindi = ActivityLatestMessagesBinding.inflate(layoutInflater)
         setContentView(bindi.root)
-
         bindi.recylerViewLatest.layoutManager = LinearLayoutManager(this)
         bindi.recylerViewLatest.setHasFixedSize(true)
         latestArrayList = arrayListOf()
         latestAdapter = LatestAdapter(latestArrayList)
         bindi.recylerViewLatest.adapter = latestAdapter
-
         bindi.include.newM.setOnClickListener {
+
             val intent = Intent(applicationContext,NewMessageActivity::class.java)
             startActivity(intent)
         }
-
         bindi.include.exitM.setOnClickListener {
+
             Firebase.auth.signOut()
             startActivity(Intent(applicationContext,LoginActivity::class.java))
             finish()
         }
-
         eventChangeListener()
-
     }
-
     private fun eventChangeListener() {
 
         val db = Firebase.firestore
         val uid = Firebase.auth.uid.toString()
-
         db.collection("latest").document("messages").collection(uid).orderBy("time",Query.Direction.DESCENDING).addSnapshotListener { snapshot, e ->
             if (e != null)
             {
@@ -65,9 +60,7 @@ class LatestMessagesActivity : AppCompatActivity() {
                     latestArrayList.add(dc.document.toObject(Latest::class.java))
                 }
             }
-
             latestAdapter.notifyDataSetChanged()
-
         }
     }
 }

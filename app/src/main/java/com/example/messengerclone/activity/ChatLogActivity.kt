@@ -1,6 +1,8 @@
 package com.example.messengerclone.activity
 
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.util.Log
@@ -20,11 +22,11 @@ import com.google.firebase.ktx.Firebase
 
 class ChatLogActivity : AppCompatActivity() {
 
-    private lateinit var userPic:String
+    private lateinit var recId:String
     private lateinit var recPic:String
-    private lateinit var recId: String
-    private lateinit var mUsername:String
     private lateinit var yUsername:String
+    private lateinit var userPic:String
+    private lateinit var mUsername:String
     private lateinit var bin: ActivityChatLogBinding
     private lateinit var roomId: String
     private lateinit var chatt: ArrayList<Chat>
@@ -35,27 +37,18 @@ class ChatLogActivity : AppCompatActivity() {
         bin = ActivityChatLogBinding.inflate(layoutInflater)
         setContentView(bin.root)
 
-        val user = intent.getParcelableExtra<Users>("username")
-        val name = intent.getParcelableExtra<Latest>("nameuser")
-
-        if (user != null) {
-            recId = user.userId
-            recPic = user.profileUrl
-            yUsername = user.username
-         }
-        else if (name != null)
-        {
-            recId = name.userId
-            recPic = name.profileUrl
-            yUsername = name.username
-        }
+        recId = intent.getStringExtra("userId").toString()
+        recPic = intent.getStringExtra("userPic").toString()
+        yUsername = intent.getStringExtra("userName").toString()
 
         val abc = Firebase.firestore
-        val userId: String? = Firebase.auth.uid
-        abc.collection("users").document(userId!!).addSnapshotListener { value, _ ->
+        val userId: String = Firebase.auth.uid.toString()
+        abc.collection("users").document(userId).addSnapshotListener { value, _ ->
             mUsername = value?.get("username").toString()
             userPic = value?.get("profileUrl").toString()
         }
+
+
 
         supportActionBar?.title = yUsername
 
@@ -110,8 +103,7 @@ class ChatLogActivity : AppCompatActivity() {
             "message" to message,
             "time" to time,
             "roomId" to roomId,
-            "userPic" to userPic,
-            "recPic" to recPic
+            "profileUrl" to userPic
         )
 
         db.collection("chats").document(roomId).collection("messages").document().set(msg,SetOptions.merge())

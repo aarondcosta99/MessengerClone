@@ -21,28 +21,22 @@ class NewMessageActivity : AppCompatActivity() {
     private lateinit var userArrayList: ArrayList<Users>
     private lateinit var newMessageAdapter: NewMessageAdapter
     private lateinit var bind: ActivityNewMessageBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         bind = ActivityNewMessageBinding.inflate(layoutInflater)
         setContentView(bind.root)
-
         supportActionBar?.title = "Select User"
-
         bind.recylerView.layoutManager = LinearLayoutManager(this)
         bind.recylerView.setHasFixedSize(true)
         userArrayList = arrayListOf()
         newMessageAdapter = NewMessageAdapter(userArrayList)
         bind.recylerView.adapter = newMessageAdapter
-
         eventChangeListener()
-
     }
-
     private fun eventChangeListener() {
 
         val db = Firebase.firestore
-
         db.collection("users").orderBy("username",Query.Direction.ASCENDING).addSnapshotListener { snapshot, e ->
             if (e != null)
             {
