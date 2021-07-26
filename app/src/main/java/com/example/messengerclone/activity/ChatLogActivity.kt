@@ -82,7 +82,6 @@ class ChatLogActivity : AppCompatActivity() {
             {
                 performSendMessage(Firebase.auth.uid!!, recId, msg)
                 bin.editTextChatLog.text.clear()
-                bin.recyclerViewChatLog.scrollToPosition(mAdapter.itemCount-1)
             }
             else
             {
